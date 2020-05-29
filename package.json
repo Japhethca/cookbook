@@ -1,0 +1,9 @@
+{
+  "name": "cookbook",
+  "version": "1.0.0",
+  "description": "A simple recipes application",
+  "main": "index.ts",
+  "repository": "https://github.com/Japhethca/cookbook.git",
+  "author": "japhethca <chidiebere.anyigor@gmail.com>",
+  "license": "MIT"
+}
