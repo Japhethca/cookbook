@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A simple recipes application",
   "main": "index.ts",
-  "repository": "https://github.com/Japhethca/cookbook.git",
+  "repository": "https://github.com/Japhethca/cookbook-api.git",
   "author": "japhethca <chidiebere.anyigor@gmail.com>",
   "license": "MIT"
 }
