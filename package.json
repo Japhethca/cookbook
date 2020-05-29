@@ -5,5 +5,34 @@
   "main": "index.ts",
   "repository": "https://github.com/Japhethca/cookbook-api.git",
   "author": "japhethca <chidiebere.anyigor@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "node build/index.js",
+    "start:dev": "node --inspect=5858 -r ts-node/register ./src",
+    "build": "tsc",
+    "dev": "nodemon"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.6",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.3"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      ".git",
+      "node_modules",
+      "build"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "yarn start:dev",
+    "ext": "ts"
+  }
 }
