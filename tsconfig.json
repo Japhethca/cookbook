@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "commonjs",
     "esModuleInterop": true,
     "target": "ES6",
     "noImplicitAny": true,
@@ -8,6 +8,7 @@
     "sourceMap": true,
     "outDir": "build",
     "baseUrl": ".",
+    "experimentalDecorators": true,
     "paths": {
       "*": ["node_modules/*", "src/types/*"]
     }
