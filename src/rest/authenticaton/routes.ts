@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { Joi } from 'express-validation';
 
 import { login, signup } from './handlers';
-import { registerRoutes, IRoute } from '../helpers';
+import { registerRoutes, IRoute } from '../routesHelper';
 
 const routes: IRoute[] = [
   {
@@ -10,10 +10,10 @@ const routes: IRoute[] = [
     path: '/login',
     handler: login,
     validate: {
-      body: Joi.object({
+      body: {
         email: Joi.string().required(),
         password: Joi.string().required(),
-      }),
+      },
     },
   },
   {
@@ -21,12 +21,12 @@ const routes: IRoute[] = [
     path: '/signup',
     handler: signup,
     validate: {
-      body: Joi.object({
+      body: {
         email: Joi.string().required(),
         password: Joi.string().required(),
         firstname: Joi.string().optional(),
         lastname: Joi.string().optional(),
-      }),
+      },
     },
   },
 ];
