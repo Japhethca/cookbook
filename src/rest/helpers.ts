@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-import { Response, RequestHandler, IRouter, NextFunction } from 'express';
-import { validate } from 'express-validation';
+import { Response } from 'express';
+
 import { statusText } from './statuscodes';
 
 dotenv.config();
@@ -29,6 +29,14 @@ export function createToken(
   return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn });
 }
 
+export function decodeToken(token: string) {
+  return jwt.decode(token, { json: true });
+}
+
+export function verifyToken(token: string) {
+  return jwt.verify(token, process.env.SECRET_KEY);
+}
+
 export function successResponse(
   res: Response,
   data: any,
@@ -41,57 +49,10 @@ interface ErrorResponse {
   message?: string;
   status?: string;
   code: number;
-  details?: string;
+  error?: string;
 }
 
 export function errorResponse(res: Response, error: ErrorResponse) {
   error.status = statusText(error.code);
   res.status(error.code).json(error);
-}
-
-interface IValidatorOPtions {
-  body?: any;
-  params?: any;
-  query?: any;
-}
-
-type SupportedMethods = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-
-export interface IRoute {
-  method: SupportedMethods;
-  path: string;
-  handler: RequestHandler;
-  validate?: IValidatorOPtions;
-}
-
-export function registerRoutes(router: IRouter, routes: IRoute[]): IRouter {
-  for (const route of routes) {
-    let validator: any = (rq: Request, rs: Response, next: NextFunction) =>
-      next();
-
-    if (route.validate) {
-      validator = validate(route.validate, {}, { abortEarly: false });
-    }
-
-    switch (route.method.toUpperCase()) {
-      case 'GET':
-        router.get(route.path, validator, route.handler);
-        continue;
-      case 'PUT':
-        router.put(route.path, validator, route.handler);
-        continue;
-      case 'POST':
-        router.post(route.path, validator, route.handler);
-        continue;
-      case 'DELETE':
-        router.delete(route.path, validator, route.handler);
-        continue;
-      case 'PATCH':
-        router.patch(route.path, validator, route.handler);
-        continue;
-      default:
-        continue;
-    }
-  }
-  return router;
 }

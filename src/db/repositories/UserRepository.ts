@@ -14,7 +14,7 @@ export class AlreadyExistsError extends Error {
   }
 }
 
-export default class UserManager {
+export default class UserRepository {
   readonly repo = getRepository(User);
 
   async getUserByEmail(email: string): Promise<User> {
