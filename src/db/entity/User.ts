@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   BeforeInsert,
 } from 'typeorm';
+import bcrypt from 'bcrypt';
 
+const HASH_SALT = 10;
 @Entity()
 export default class User {
   @PrimaryGeneratedColumn()
@@ -31,4 +33,9 @@ export default class User {
 
   @CreateDateColumn()
   createdAt: string;
+
+  @BeforeInsert()
+  hashPassword() {
+    this.password = bcrypt.hashSync(this.password, HASH_SALT);
+  }
 }

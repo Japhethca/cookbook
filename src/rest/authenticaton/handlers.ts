@@ -5,7 +5,6 @@ import {
   errorResponse,
   successResponse,
   comparePassword,
-  hashPassword,
   serverError,
 } from '../helpers';
 import UserRepository from '../../db/repositories/UserRepository';
@@ -45,9 +44,7 @@ export async function login(req: Request, res: Response) {
 export async function signup(req: Request, res: Response) {
   const userRepository = new UserRepository();
   try {
-    const user = <User>req.body;
-    user.password = hashPassword(user.password);
-    const newUser = await userRepository.createUser(user);
+    const newUser = await userRepository.createUser(req.body);
 
     const token = createToken({ id: newUser.userId });
     setTokenCookie(res, token);
