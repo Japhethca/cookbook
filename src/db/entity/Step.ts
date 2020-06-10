@@ -11,7 +11,7 @@ export default class Step {
   text: string;
 
   @Column({ type: 'text', nullable: true })
-  photos: string;
+  photo: string;
 
   @ManyToOne(type => Recipe, recipe => recipe.steps)
   recipeId: number;

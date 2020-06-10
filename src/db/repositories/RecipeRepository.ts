@@ -1,8 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import Recipe from '../entity/Recipe';
-import StepRepository from './StepRepository';
-import { DoesNotExistError } from './UserRepository';
+import { DoesNotExistError } from '../errors';
 
 interface IRecipeRepository {
   getRecipe(recipeId: number): Promise<Recipe>;
@@ -42,5 +41,15 @@ export default class RecipeRepository implements IRecipeRepository {
 
     await this.repo.remove(recipe);
     return true;
+  }
+
+  async updateRecipe(recipeId: number, recipe: Recipe): Promise<Recipe> {
+    const recipeExists = await this.repo.findOne(recipeId);
+    if (!recipeExists) {
+      throw new DoesNotExistError('Recipe with Id ${recipeId} does not exist');
+    }
+    recipe.id = recipeId;
+    const updated = await this.repo.save(recipe, { reload: true });
+    return updated;
   }
 }

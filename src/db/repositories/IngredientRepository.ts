@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import Recipe from '../entity/Recipe';
-import { DoesNotExistError } from './UserRepository';
+import { DoesNotExistError } from '../errors';
 
 export default class RecipeRepository {
   readonly repo = getRepository(Recipe);

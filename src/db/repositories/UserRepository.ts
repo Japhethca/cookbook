@@ -1,18 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import User from '../entity/User';
-
-export class DoesNotExistError extends Error {
-  constructor(m: string = 'does not exist') {
-    super(m);
-  }
-}
-
-export class AlreadyExistsError extends Error {
-  constructor(m: string = 'Already exists') {
-    super(m);
-  }
-}
+import { DoesNotExistError, AlreadyExistsError } from '../errors';
 
 export default class UserRepository {
   readonly repo = getRepository(User);
