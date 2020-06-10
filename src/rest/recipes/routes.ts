@@ -91,6 +91,14 @@ const routes: IRoute[] = [
             })
           )
           .optional(),
+        categories: Joi.array()
+          .items(
+            Joi.object({
+              name: Joi.string().optional(),
+              id: Joi.number().optional(),
+            })
+          )
+          .optional(),
         ingredients: Joi.array()
           .items(
             Joi.object({
