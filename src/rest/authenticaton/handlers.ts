@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
 
-import UserRepository, {
-  DoesNotExistError,
-  AlreadyExistsError,
-} from '../../db/repositories/UserRepository';
 import {
   createToken,
   errorResponse,
   successResponse,
   comparePassword,
   hashPassword,
+  serverError,
 } from '../helpers';
+import UserRepository from '../../db/repositories/UserRepository';
+import { DoesNotExistError, AlreadyExistsError } from '../../db/errors';
 import * as httpstatus from '../statuscodes';
 import User from '../../db/entity/User';
 
@@ -39,11 +38,7 @@ export async function login(req: Request, res: Response) {
       });
     }
 
-    return errorResponse(res, {
-      message: 'Something weird happened, its not from you.',
-      code: httpstatus.STATUS_INTERNAL_SERVER_ERROR,
-      error: err.stack,
-    });
+    return serverError(res, err);
   }
 }
 
@@ -66,11 +61,7 @@ export async function signup(req: Request, res: Response) {
       });
     }
 
-    return errorResponse(res, {
-      message: 'Something went wrong, its not you.',
-      code: httpstatus.STATUS_INTERNAL_SERVER_ERROR,
-      error: err.stack,
-    });
+    return serverError(res, err);
   }
 }
 

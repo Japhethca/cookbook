@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import { Response } from 'express';
 
-import { statusText } from './statuscodes';
+import { statusText, STATUS_INTERNAL_SERVER_ERROR } from './statuscodes';
 
 dotenv.config();
 
@@ -55,4 +55,12 @@ interface ErrorResponse {
 export function errorResponse(res: Response, error: ErrorResponse) {
   error.status = statusText(error.code);
   res.status(error.code).json(error);
+}
+
+export function serverError(res: Response, err: Error) {
+  errorResponse(res, {
+    message: "Something went wrong, we're working on it.",
+    code: STATUS_INTERNAL_SERVER_ERROR,
+    error: process.env.NODE_ENV === 'production' ? err.message : err.stack,
+  });
 }

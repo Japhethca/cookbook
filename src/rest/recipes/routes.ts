@@ -6,6 +6,7 @@ import {
   getRecipe,
   getAllRecipes,
   deleteRecipe,
+  updateRecipe,
 } from './handlers';
 import { registerRoutes, IRoute } from '../routesHelper';
 
@@ -19,10 +20,14 @@ const routes: IRoute[] = [
       body: {
         title: Joi.string().optional(),
         description: Joi.string().optional(),
+        coverImage: Joi.string().uri({ allowRelative: true }).optional(),
+        published: Joi.boolean().optional(),
         steps: Joi.array()
           .items(
             Joi.object({
               text: Joi.string().required(),
+              id: Joi.number().optional(),
+              photo: Joi.string().optional(),
             })
           )
           .optional(),
@@ -30,6 +35,7 @@ const routes: IRoute[] = [
           .items(
             Joi.object({
               text: Joi.string().required(),
+              id: Joi.number().optional(),
             })
           )
           .optional(),
@@ -59,6 +65,40 @@ const routes: IRoute[] = [
     validate: {
       params: {
         recipeId: Joi.number().required(),
+      },
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/:recipeId',
+    handler: updateRecipe,
+    requiresAuth: true,
+    validate: {
+      params: {
+        recipeId: Joi.number().required(),
+      },
+      body: {
+        title: Joi.string().optional(),
+        description: Joi.string().optional(),
+        coverImage: Joi.string().uri({ allowRelative: true }).optional(),
+        published: Joi.boolean().optional(),
+        steps: Joi.array()
+          .items(
+            Joi.object({
+              text: Joi.string().required(),
+              id: Joi.number().optional(),
+              photo: Joi.string().optional(),
+            })
+          )
+          .optional(),
+        ingredients: Joi.array()
+          .items(
+            Joi.object({
+              text: Joi.string().required(),
+              id: Joi.number().optional(),
+            })
+          )
+          .optional(),
       },
     },
   },

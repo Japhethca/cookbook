@@ -27,6 +27,9 @@ export default class Recipe {
   @ManyToOne(type => User, user => user.userId)
   author: number;
 
+  @Column({ type: 'boolean', default: false })
+  published: boolean;
+
   @OneToMany(type => Step, step => step.recipeId, {
     nullable: true,
     onDelete: 'CASCADE',
@@ -48,8 +51,8 @@ export default class Recipe {
   })
   comments: Comment[];
 
-  // @OneToMany(type => Photos, photo => photo.)
-  // photos: Photos;
+  @Column({ type: 'text', nullable: true })
+  coverImage: string;
 
   @CreateDateColumn()
   createdAt: string;
