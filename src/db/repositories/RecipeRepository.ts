@@ -7,24 +7,35 @@ interface IRecipeRepository {
   getRecipe(recipeId: number): Promise<Recipe>;
   getAllRecipe(): Promise<Recipe[]>;
   createRecipe(recipe: Recipe, userId: number): Promise<Recipe>;
+  deleteRecipe(recipeId: number): Promise<boolean>;
+  updateRecipe(recipeId: number, recipe: Recipe): Promise<Recipe>;
 }
 
 export default class RecipeRepository implements IRecipeRepository {
   readonly repo = getRepository(Recipe);
 
-  async getRecipe(recipeId: number): Promise<Recipe> {
+  async getRecipe(id: number): Promise<Recipe> {
+    const relations = [
+      'steps',
+      'ingredients',
+      'comments',
+      'author',
+      'categories',
+    ];
     const recipe = await this.repo.findOne({
-      where: { id: recipeId },
-      relations: ['steps', 'ingredients', 'comments', 'author'],
+      where: { id },
+      relations,
     });
+
     if (!recipe) {
-      throw new DoesNotExistError(`Recipe with Id ${recipeId} does not exist`);
+      throw new DoesNotExistError(`Recipe with Id ${id} does not exist`);
     }
     return recipe;
   }
 
   async getAllRecipe(): Promise<Recipe[]> {
-    return this.repo.find({ relations: ['steps', 'ingredients', 'author'] });
+    const relations = ['steps', 'ingredients', 'author', 'categories'];
+    return this.repo.find({ relations });
   }
 
   async createRecipe(recipe: Recipe, userId: number): Promise<Recipe> {

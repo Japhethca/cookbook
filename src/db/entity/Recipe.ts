@@ -6,12 +6,15 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 import User from './User';
 import Step from './Step';
 import Ingredient from './Ingredient';
 import Comment from './Comment';
+import Category from './Category';
 
 @Entity()
 export default class Recipe {
@@ -26,9 +29,6 @@ export default class Recipe {
 
   @ManyToOne(type => User, user => user.userId)
   author: number;
-
-  @Column({ type: 'boolean', default: false })
-  published: boolean;
 
   @OneToMany(type => Step, step => step.recipeId, {
     nullable: true,
@@ -51,8 +51,12 @@ export default class Recipe {
   })
   comments: Comment[];
 
-  @Column({ type: 'text', nullable: true })
-  coverImage: string;
+  @ManyToMany(type => Category, category => category.id, { cascade: true })
+  @JoinTable()
+  categories: Category[];
+
+  // @OneToMany(type => Photos, photo => photo.)
+  // photos: Photos;
 
   @CreateDateColumn()
   createdAt: string;
