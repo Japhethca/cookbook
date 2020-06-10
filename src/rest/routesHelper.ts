@@ -1,7 +1,7 @@
 import { Response, RequestHandler, IRouter } from 'express';
 import { validate, Joi } from 'express-validation';
 
-import { withAuthentication } from './authenticaton/middleware';
+import { withAuthentication } from './middlewares';
 import { errorResponse } from './helpers';
 import { STATUS_METHOD_NOT_ALLOWED } from './statuscodes';
 

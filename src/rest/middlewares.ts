@@ -1,7 +1,25 @@
-import { NextFunction, Request, Response } from 'express';
+import { ValidationError } from 'express-validation';
+import { ErrorRequestHandler, Request, NextFunction, Response } from 'express';
 
-import { decodeToken, verifyToken, errorResponse } from '../helpers';
-import { STATUS_UNAUTHORIZED } from '../statuscodes';
+import {
+  decodeToken,
+  verifyToken,
+  errorResponse,
+  serverError,
+} from './helpers';
+import { STATUS_UNAUTHORIZED } from './statuscodes';
+
+export function withValidation(
+  err: ErrorRequestHandler,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (err instanceof ValidationError) {
+    return res.status(err.statusCode).json(err);
+  }
+  next(err);
+}
 
 export function withAuthentication(
   req: Request,
