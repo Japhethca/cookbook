@@ -11,7 +11,7 @@ const routes: IRoute[] = [
     handler: login,
     validate: {
       body: {
-        email: Joi.string().required(),
+        email: Joi.string().email().required(),
         password: Joi.string().required(),
       },
     },
@@ -22,8 +22,9 @@ const routes: IRoute[] = [
     handler: signup,
     validate: {
       body: {
-        email: Joi.string().required(),
-        password: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().min(5).required(),
+        confirmPassword: Joi.string().required().valid(Joi.ref('password')),
         firstname: Joi.string().optional(),
         lastname: Joi.string().optional(),
       },

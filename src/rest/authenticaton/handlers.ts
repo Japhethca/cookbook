@@ -10,7 +10,6 @@ import {
 import UserRepository from '../../db/repositories/UserRepository';
 import { DoesNotExistError, AlreadyExistsError } from '../../db/errors';
 import * as httpstatus from '../statuscodes';
-import User from '../../db/entity/User';
 
 export async function login(req: Request, res: Response) {
   const userRepository = new UserRepository();
