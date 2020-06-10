@@ -7,12 +7,6 @@ import { statusText, STATUS_INTERNAL_SERVER_ERROR } from './statuscodes';
 
 dotenv.config();
 
-const HASH_SALT = 10;
-
-export function hashPassword(password: string): string {
-  return bcrypt.hashSync(password, HASH_SALT);
-}
-
 export function comparePassword(password: string, hashed: string): boolean {
   return bcrypt.compareSync(password, hashed);
 }
