@@ -1,4 +1,4 @@
-import { Response, RequestHandler, IRouter } from 'express';
+import { Response, RequestHandler, IRouter, Request } from 'express';
 import { validate, Joi } from 'express-validation';
 
 import { withAuthentication } from './middlewares';
@@ -22,6 +22,7 @@ export interface IRoute {
 }
 
 export function registerRoutes(router: IRouter, routes: IRoute[]): IRouter {
+  let routePaths: string[] = [];
   for (const route of routes) {
     const middlewares: RequestHandler[] = [];
 
@@ -38,6 +39,8 @@ export function registerRoutes(router: IRouter, routes: IRoute[]): IRouter {
 
       middlewares.push(validate(schema, {}, { abortEarly: false }));
     }
+
+    routePaths.push(route.path);
 
     switch (route.method.toUpperCase()) {
       case 'GET':
@@ -59,12 +62,13 @@ export function registerRoutes(router: IRouter, routes: IRoute[]): IRouter {
         continue;
     }
   }
+  routePaths.map(path => router.all(path, methodNotImplemented));
   return router;
 }
 
 function methodNotImplemented(req: Request, res: Response) {
   return errorResponse(res, {
-    message: `Method ${req.method} not implemented`,
+    message: `Method ${req.method} not allowed on this endpoint.`,
     code: STATUS_METHOD_NOT_ALLOWED,
   });
 }
