@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 
 import authRoutes from './authenticaton/routes';
 import recipesRoutes from './recipes/routes';
