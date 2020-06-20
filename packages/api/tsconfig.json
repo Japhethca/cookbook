@@ -10,8 +10,8 @@
     "baseUrl": ".",
     "experimentalDecorators": true,
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
+      "*": ["node_modules/*", "packages/api/src/types/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["packages/api/src/**/*"]
 }
