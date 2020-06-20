@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 
-import restRoutes from './rest/apiRoutes';
+import restRoutes from './rest/routes';
 
 const app: Application = express();
 
